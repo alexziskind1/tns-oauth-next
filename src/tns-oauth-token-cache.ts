@@ -1,5 +1,6 @@
 import * as applicationSettingsModule from "tns-core-modules/application-settings";
-import { ITnsOAuthTokenResult } from "./interfaces";
+import * as TnsOAuth from './tns-oauth-interfaces';
+
 
 const TNS_OAUTH_KEY = "TNS_OAUTH_KEY";
 
@@ -9,10 +10,10 @@ export class TnsOAuthTokenCache {
         return applicationSettingsModule.hasKey(TNS_OAUTH_KEY);
     }
 
-    public static getToken(): ITnsOAuthTokenResult {
+    public static getToken(): TnsOAuth.ITnsOAuthTokenResult {
         if (applicationSettingsModule.hasKey(TNS_OAUTH_KEY)) {
             let trStr = applicationSettingsModule.getString(TNS_OAUTH_KEY);
-            let tr = <ITnsOAuthTokenResult>JSON.parse(trStr);
+            let tr = <TnsOAuth.ITnsOAuthTokenResult>JSON.parse(trStr);
 
             if (tr.accessTokenExpiration) {
                 tr.accessTokenExpiration = new Date(tr.accessTokenExpiration.toString());
@@ -27,7 +28,7 @@ export class TnsOAuthTokenCache {
         else return null;
     }
 
-    public static setToken(token: ITnsOAuthTokenResult) {
+    public static setToken(token: TnsOAuth.ITnsOAuthTokenResult) {
         applicationSettingsModule.setString(TNS_OAUTH_KEY, JSON.stringify(token));
     }
 

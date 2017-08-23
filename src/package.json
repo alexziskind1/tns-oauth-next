@@ -2,7 +2,7 @@
     "name": "nativescript-oauth",
     "version": "1.0.0",
     "description": "Your awesome NativeScript plugin.",
-    "main": "oauth",
+    "main": "index",
     "typings": "index.d.ts",
     "nativescript": {
         "platforms": {

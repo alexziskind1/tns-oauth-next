@@ -2,7 +2,6 @@ export function endsWith(str, suffix) {
     return str.indexOf(suffix, str.length - suffix.length) !== -1;
 }
 
-
 export function nsArrayToJSArray(a) {
     var arr = [];
     if ("undefined" !== typeof a) {
