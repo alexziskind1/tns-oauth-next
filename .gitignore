@@ -4,6 +4,7 @@
 *.js
 *.js.map
 *.log
+*.json
 src/*.d.ts
 !src/index.d.ts
 !src/references.d.ts
@@ -12,6 +13,8 @@ src/*.d.ts
 !src/tns-oauth-interfaces.d.ts
 !src/scripts/*.js
 !seed-tests/*.js
+!package.json
+!tsconfig.json
 seed-tests/seed-copy/**/*.*
 seed-tests/seed-copy-new-git-repo/**/*.*
 !demo/karma.conf.js
