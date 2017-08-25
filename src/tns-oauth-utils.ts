@@ -3,14 +3,14 @@ export function endsWith(str, suffix) {
 }
 
 export function nsArrayToJSArray(a) {
-    var arr = [];
+    let arr = [];
     if ("undefined" !== typeof a) {
-        var count = a.count;
-        for (var i = 0; i < count; i++) {
+        const count = a.count;
+        for (let i = 0; i < count; i++) {
             arr.push(a.objectAtIndex(i));
         }
     }
     return arr;
 }
 
-export function newUUID(a?, b?) { for (b = a = ''; a++ < 36; b += a * 51 & 52 ? (a ^ 15 ? 8 ^ Math.random() * (a ^ 20 ? 16 : 4) : 4).toString(16) : '-'); return b }
+export function newUUID(a?, b?) { for (b = a = ''; a++ < 36; b += a * 51 & 52 ? (a ^ 15 ? 8 ^ Math.random() * (a ^ 20 ? 16 : 4) : 4).toString(16) : '-'); return b; }

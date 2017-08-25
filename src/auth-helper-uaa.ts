@@ -8,7 +8,7 @@ export class AuthHelperUaa extends AuthHelper implements TnsOAuth.ITnsAuthHelper
 
   constructor(authority: string, redirectUri: string, clientId: string, clientSecret: string, scope: Array<string>, cookieDomains: Array<string>, basicAuthHeader: string) {
     super();
-    var scopeStr = scope.join('%20');
+    const scopeStr = scope.join('%20');
 
     let uaaCreds: TnsOAuth.ITnsOAuthCredentialsUaa = {
       authority: authority,

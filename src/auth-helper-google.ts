@@ -6,7 +6,7 @@ export class AuthHelperGoogle extends AuthHelper implements TnsOAuth.ITnsAuthHel
 
   constructor(clientId: string, scope: Array<string>) {
     super();
-    var scopeStr = scope.join('%20');
+    const scopeStr = scope.join('%20');
     this.credentials = {
       authority: 'https://accounts.google.com/o',
       authorizeEndpoint: '/oauth2/v2/auth',
@@ -18,7 +18,7 @@ export class AuthHelperGoogle extends AuthHelper implements TnsOAuth.ITnsAuthHel
   }
 
   public logout(successPage?: string): Promise<void> {
-    let cookieDomains = [".google.com"]; //need to double check this
+    let cookieDomains = [".google.com"]; // need to double check this
     return this._logout(successPage, cookieDomains);
   }
 }

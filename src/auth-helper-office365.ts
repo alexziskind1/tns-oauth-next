@@ -6,7 +6,7 @@ export class AuthHelperOffice365 extends AuthHelper implements TnsOAuth.ITnsAuth
 
   constructor(clientId: string, scope: Array<string>) {
     super();
-    var scopeStr = scope.join('%20');
+    const scopeStr = scope.join('%20');
     this.credentials = {
       authority: 'https://login.microsoftonline.com/common',
       authorizeEndpoint: '/oauth2/v2.0/authorize',

@@ -12,8 +12,8 @@ import * as utils from './tns-oauth-utils';
 import { TnsOAuthPageProvider } from './tns-oauth-page-provider';
 import { TnsOAuthTokenCache } from './tns-oauth-token-cache';
 
-export var ACCESS_TOKEN_CACHE_KEY = 'ACCESS_TOKEN_CACHE_KEY';
-export var REFRESH_TOKEN_CACHE_KEY = 'REFRESH_TOKEN_CACHE_KEY';
+export const ACCESS_TOKEN_CACHE_KEY = 'ACCESS_TOKEN_CACHE_KEY';
+export const REFRESH_TOKEN_CACHE_KEY = 'REFRESH_TOKEN_CACHE_KEY';
 
 
 function getAuthHeaderFromCredentials(credentials: TnsOAuthModule.ITnsOAuthCredentials) {
@@ -60,7 +60,7 @@ export function getTokenFromRefreshToken(credentials: TnsOAuthModule.ITnsOAuthCr
 
     let customAuthHeader: any = getAuthHeaderFromCredentials(credentials);
 
-    var oauth2 = new TnsOAuth(
+    let oauth2 = new TnsOAuth(
         credentials.clientId,
         credentials.clientSecret,
         credentials.authority,
@@ -102,10 +102,10 @@ export function getTokenFromCache() {
 
 export function loginViaAuthorizationCodeFlow(credentials: TnsOAuthModule.ITnsOAuthCredentials, successPage?: string): Promise<TnsOAuthModule.ITnsOAuthTokenResult> {
     return new Promise((resolve, reject) => {
-        var navCount = 0;
+        let navCount = 0;
 
         let checkCodeIntercept = (webView, error, url): boolean => {
-            var retStr = '';
+            let retStr = '';
             try {
                 if (error && error.userInfo && error.userInfo.allValues && error.userInfo.allValues.count > 0) {
                     let val0 = error.userInfo.allValues[0];
@@ -126,7 +126,7 @@ export function loginViaAuthorizationCodeFlow(credentials: TnsOAuthModule.ITnsOA
                 reject('Failed to resolve return URL');
             }
 
-            if (retStr != '') {
+            if (retStr !== '') {
                 let parsedRetStr = URL.parse(retStr);
                 if (parsedRetStr.query) {
                     let qsObj = querystring.parse(parsedRetStr.query);
@@ -161,7 +161,7 @@ export function loginViaAuthorizationCodeFlow(credentials: TnsOAuthModule.ITnsOA
                         return true;
                     } else {
                         if (errSubCode) {
-                            if (errSubCode == 'cancel') {
+                            if (errSubCode === 'cancel') {
                                 frameModule.topmost().goBack();
                             }
                         }
@@ -173,7 +173,7 @@ export function loginViaAuthorizationCodeFlow(credentials: TnsOAuthModule.ITnsOA
 
         console.log('LOGIN PAGE URL = ' + getAuthUrl(credentials));
         let authPage = new TnsOAuthPageProvider(checkCodeIntercept, getAuthUrl(credentials));
-        frameModule.topmost().navigate(() => { return authPage.loginPageFunc() });
+        frameModule.topmost().navigate(() => { return authPage.loginPageFunc(); });
     });
 }
 
@@ -201,9 +201,9 @@ export function refreshToken(credentials: TnsOAuthModule.ITnsOAuthCredentials): 
 export function logout(cookieDomains: string[], successPage?: string) {
     if (platform.isIOS) {
         let cookieArr = utils.nsArrayToJSArray(NSHTTPCookieStorage.sharedHTTPCookieStorage.cookies);
-        for (var i = 0; i < cookieArr.length; i++) {
-            var cookie: NSHTTPCookie = <NSHTTPCookie>cookieArr[i];
-            for (var j = 0; j < cookieDomains.length; j++) {
+        for (let i = 0; i < cookieArr.length; i++) {
+            const cookie: NSHTTPCookie = <NSHTTPCookie>cookieArr[i];
+            for (let j = 0; j < cookieDomains.length; j++) {
                 if (utils.endsWith(cookie.domain, cookieDomains[j])) {
                     NSHTTPCookieStorage.sharedHTTPCookieStorage.deleteCookie(cookie);
                 }
@@ -220,7 +220,6 @@ export function logout(cookieDomains: string[], successPage?: string) {
             cookieManager.removeSessionCookie();
         }
     }
-
 
     TnsOAuthTokenCache.removeToken();
 
@@ -265,7 +264,7 @@ class TnsOAuth {
     }
 
     get accessTokenUrl(): string {
-        if (this._baseSiteToken && this._baseSiteToken != '') {
+        if (this._baseSiteToken && this._baseSiteToken !== '') {
             return this._baseSiteToken + this._accessTokenUrl;
         } else {
             return this._baseSite + this._accessTokenUrl; /* + "?" + querystring.stringify(params); */
@@ -285,7 +284,7 @@ class TnsOAuth {
     // e.g. Authorization: Bearer <token>  # "Bearer" is the authorization method.
     public setAuthMethod(authMethod) {
         this._authMethod = authMethod;
-    };
+    }
 
     // If you use the OAuth2 exposed 'get' method (and don't construct your own _request call )
     // this will specify whether to use an 'Authorize' header instead of passing the access_token as a query parameter
@@ -297,33 +296,33 @@ class TnsOAuth {
     // e.g. Authorization: Bearer <token>  # Build "Bearer <token>"
     public buildAuthHeader(token) {
         return this._authMethod + ' ' + token;
-    };
+    }
 
     public getAuthorizeUrl(params) {
-        var params = params || {};
+        params = params || {};
         params['client_id'] = this._clientId;
         return this._baseSite + this._authorizeUrl + "?" + querystring.stringify(params);
     }
 
     public getOAuthAccessToken(code, params): Promise<TnsOAuthModule.ITnsOAuthTokenResult> {
-        var params = params || {};
+        params = params || {};
         params['client_id'] = this._clientId;
-        if (this._clientSecret && this._clientSecret != '') {
+        if (this._clientSecret && this._clientSecret !== '') {
             params['client_secret'] = this._clientSecret;
         }
 
-        var codeParam = (params.grant_type === 'refresh_token') ? 'refresh_token' : 'code';
+        const codeParam = (params.grant_type === 'refresh_token') ? 'refresh_token' : 'code';
         params[codeParam] = code;
 
-        var post_data = querystring.stringify(params);
-        var post_headers = {
+        const post_data = querystring.stringify(params);
+        const post_headers = {
             'Content-Type': 'application/x-www-form-urlencoded'
         };
 
         return new Promise<TnsOAuthModule.ITnsOAuthTokenResult>((resolve, reject) => {
             this._request("POST", this.accessTokenUrl, post_headers, post_data, null)
                 .then((response: http.HttpResponse) => {
-                    var results;
+                    let results;
                     try {
                         // As of http://tools.ietf.org/html/draft-ietf-oauth-v2-07
                         // responses should be in JSON
@@ -361,14 +360,14 @@ class TnsOAuth {
     }
 
     private _request(method, url, headers, post_body, access_token): Promise<http.HttpResponse> {
-        var parsedUrl = URL.parse(url, true);
+        const parsedUrl = URL.parse(url, true);
 
-        var realHeaders = {};
-        for (var key in this._customHeaders) {
+        let realHeaders = {};
+        for (let key in this._customHeaders) {
             realHeaders[key] = this._customHeaders[key];
         }
         if (headers) {
-            for (var key in headers) {
+            for (let key in headers) {
                 realHeaders[key] = headers[key];
             }
         }
@@ -381,11 +380,11 @@ class TnsOAuth {
             parsedUrl.query[this._accessTokenName] = access_token;
         }
 
-        var queryStr = querystring.stringify(parsedUrl.query);
+        let queryStr = querystring.stringify(parsedUrl.query);
         if (queryStr) {
             queryStr = "?" + queryStr;
         }
-        var options = {
+        let options = {
             host: parsedUrl.hostname,
             port: parsedUrl.port,
             path: parsedUrl.pathname + queryStr,
@@ -397,7 +396,7 @@ class TnsOAuth {
     }
 
     private _executeRequest(options, url, post_body): Promise<http.HttpResponse> {
-        var promise = http.request({
+        let promise = http.request({
             url: url,
             method: options.method,
             headers: options.headers,

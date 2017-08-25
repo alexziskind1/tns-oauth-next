@@ -9,7 +9,7 @@ import { AuthHelperLinkedIn } from './auth-helper-linkedin';
 
 import * as TnsOAuth from './tns-oauth-interfaces';
 
-export var instance: TnsOAuth.ITnsAuthHelper = null;
+export let instance: TnsOAuth.ITnsAuthHelper = null;
 
 export function initOffice365(options: TnsOAuth.ITnsOAuthOptionsOffice365): Promise<any> {
     return new Promise(function (resolve, reject) {

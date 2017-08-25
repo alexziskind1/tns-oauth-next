@@ -2,9 +2,7 @@ import { Page } from 'tns-core-modules/ui/page';
 import { GridLayout } from 'tns-core-modules/ui/layouts/grid-layout';
 import { StackLayout } from 'tns-core-modules/ui/layouts/stack-layout';
 import { WebView } from 'tns-core-modules/ui/web-view';
-//import { TnsOAuthWebViewDelegateImpl } from './tns-oauth-webview';
 import { TnsOAuthWebViewHelper } from './tns-oauth-webview-helper';
-
 
 export class TnsOAuthPageProvider {
     private _checkCodeIntercept: (WebView, error?, url?) => boolean;
@@ -32,5 +30,5 @@ export class TnsOAuthPageProvider {
         wv.src = this._authUrl;
 
         return page;
-    };
+    }
 }

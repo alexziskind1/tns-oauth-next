@@ -4,7 +4,7 @@ import trace = require("tns-core-modules/trace");
 export class TnsOAuthWebViewHelper extends android.webkit.WebViewClient {
 
     private _view: any;
-    private _origClient: any; //WebViewClient
+    private _origClient: any; // WebViewClient
     private _checkCodeIntercept: (WebView, error?, url?) => boolean;
 
     constructor() {
@@ -39,12 +39,12 @@ export class TnsOAuthWebViewHelper extends android.webkit.WebViewClient {
         }
     }
 
-    /// param url was a string before 7.1.1. It is an object after 7.1.1
+    // param url was a string before 7.1.1. It is an object after 7.1.1
     public shouldOverrideUrlLoading(view: android.webkit.WebView, url: any) {
         if (trace.isEnabled()) {
             trace.write("WebViewClientClass.shouldOverrideUrlLoading(" + url + ")", trace.categories.Debug);
         }
-        var urlStr = '';
+        let urlStr = '';
         if (typeof url === 'string') {
             urlStr = url;
         } else if (typeof url === 'object') {
@@ -91,13 +91,13 @@ export class TnsOAuthWebViewHelper extends android.webkit.WebViewClient {
     }
 
     public onReceivedError() {
-        var view: android.webkit.WebView = arguments[0];
+        const view: android.webkit.WebView = arguments[0];
         if (arguments.length === 4) {
 
-            var errorCode: number = arguments[1];
-            var description: string = arguments[2];
-            var failingUrl: string = arguments[3];
-            this._checkCodeIntercept(this._view, null, failingUrl)
+            const errorCode: number = arguments[1];
+            const description: string = arguments[2];
+            const failingUrl: string = arguments[3];
+            this._checkCodeIntercept(this._view, null, failingUrl);
 
             super.onReceivedError(view, errorCode, description, failingUrl);
 
@@ -108,10 +108,9 @@ export class TnsOAuthWebViewHelper extends android.webkit.WebViewClient {
                 this._view._onLoadFinished(failingUrl, description + "(" + errorCode + ")");
             }
         } else {
-
-            var request: any = arguments[1];
-            var error: any = arguments[2];
-            this._checkCodeIntercept(this._view, error)
+            const request: any = arguments[1];
+            const error: any = arguments[2];
+            this._checkCodeIntercept(this._view, error);
 
             super.onReceivedError(view, request, error);
 
